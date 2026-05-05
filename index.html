@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PaaS · FaaS · CaaS — Managed Compute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+<style>
+  :root { --amber:#f5a623;--green:#4ecb8d;--purple:#a78bfa;--blue:#60a5fa;--red:#f87171;
+    --bg:#0a0a0f;--bg2:#10101a;--bg3:#181824;--border:#2a2a3a;--text:#e8e8f0;--muted:#8888a8; }
+  .reveal-viewport{background:var(--bg);} .reveal .slides section{background:transparent;}
+  .reveal{font-family:'DM Sans',sans-serif;color:var(--text);}
+  .reveal h1,.reveal h2,.reveal h3{font-family:'Playfair Display',serif;font-weight:700;}
+  .reveal h1{font-size:1.6em;color:var(--amber);line-height:1.1;}
+  .reveal h2{font-size:1.1em;color:var(--amber);margin-bottom:.2em;}
+  .reveal h3{font-size:.78em;color:var(--green);margin-bottom:.15em;}
+  .reveal p{font-size:.56em;line-height:1.45;color:var(--text);}
+  .reveal li{font-size:.54em;line-height:1.45;margin-bottom:.1em;}
+  .reveal code{font-family:'JetBrains Mono',monospace;font-size:.72em;}
+  .reveal pre{box-shadow:none;background:var(--bg3);border:1px solid var(--border);
+    border-radius:6px;padding:.3em .5em;margin:.25em 0;}
+  .reveal pre code{font-size:.52em;line-height:1.35;background:transparent;color:#cdd6f4;}
+  .slide-hdr{display:flex;align-items:center;gap:.4em;border-bottom:1px solid var(--border);
+    padding-bottom:.2em;margin-bottom:.3em;}
+  .slide-hdr .tag{font-family:'JetBrains Mono',monospace;font-size:.42em;font-weight:500;
+    color:var(--bg);background:var(--amber);padding:.1em .4em;border-radius:3px;letter-spacing:.04em;}
+  .slide-hdr h2{margin:0;font-size:.95em;}
+  .cols{display:grid;gap:.5em;} .cols-2{grid-template-columns:1fr 1fr;}
+  .cols-3{grid-template-columns:1fr 1fr 1fr;} .cols-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+  .cols-6040{grid-template-columns:6fr 4fr;} .cols-4060{grid-template-columns:4fr 6fr;}
+  .card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.35em .6em;}
+  .card.amber{border-left:3px solid var(--amber);} .card.green{border-left:3px solid var(--green);}
+  .card.purple{border-left:3px solid var(--purple);} .card.blue{border-left:3px solid var(--blue);}
+  .card.red{border-left:3px solid var(--red);}
+  .card h3{font-size:.64em;margin:0 0 .12em;} .card p{font-size:.52em;margin:0;color:#b8b8d0;}
+  .card ul{margin:0;padding-left:1em;} .card li{font-size:.52em;color:#b8b8d0;margin-bottom:.02em;}
+  .reveal table{width:100%;border-collapse:collapse;font-size:.5em;}
+  .reveal table th{background:var(--bg3);color:var(--amber);font-weight:600;
+    padding:.2em .4em;border:1px solid var(--border);text-align:left;}
+  .reveal table td{padding:.18em .4em;border:1px solid var(--border);color:#ccc;}
+  .reveal table tr:nth-child(even) td{background:#0e0e18;}
+  .a{color:var(--amber);font-weight:600;} .g{color:var(--green);font-weight:600;}
+  .p{color:var(--purple);font-weight:600;} .b{color:var(--blue);font-weight:600;}
+  .r{color:var(--red);font-weight:600;} .mono{font-family:'JetBrains Mono',monospace;}
+  svg.diagram{display:block;margin:0 auto;overflow:visible;}
+  .pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.44em;
+    padding:.08em .4em;border-radius:99px;border:1px solid;margin:0 .08em;}
+  .pill.amber{color:var(--amber);border-color:var(--amber);}
+  .pill.green{color:var(--green);border-color:var(--green);}
+  .pill.purple{color:var(--purple);border-color:var(--purple);}
+  .pill.blue{color:var(--blue);border-color:var(--blue);}
+  .reveal .slide-footer{display:none;}
+  .title-slide h1{font-size:1.8em;}
+  .title-slide .subtitle{font-size:.7em;color:var(--green);font-family:'DM Sans',sans-serif;
+    font-weight:300;letter-spacing:.04em;margin:.3em 0 .6em;}
+  .title-slide .meta{font-size:.48em;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .ss-row{display:flex;gap:.25em;align-items:center;margin:.1em 0;font-size:.55em;
+    font-family:'JetBrains Mono',monospace;flex-wrap:wrap;}
+  .ss-node{padding:.2em .55em;border-radius:5px;font-size:.9em;
+    background:var(--bg3);border:1px solid var(--border);color:var(--text);}
+  .ss-node.active{background:#1a2a1a;border-color:var(--green);color:var(--green);}
+  .ss-node.done{background:#1a1a2a;border-color:var(--purple);color:var(--purple);}
+  .ss-arrow{color:var(--amber);} .ss-label{font-size:.8em;color:var(--muted);margin-left:.3em;}
+  .reveal ul,.reveal ol{margin:.15em 0 .15em 1em;}
+  .reveal .slides>section{display:flex!important;flex-direction:column!important;
+    overflow-y:auto!important;align-items:stretch!important;justify-content:flex-start!important;}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+
+<!-- 01 — TITLE -->
+<section class="title-slide" data-background-color="#0a0a0f">
+  <div style="text-align:left; max-width:820px; margin:0 auto; padding: 1em 0;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:.5em; color:var(--muted); margin-bottom:.4em; letter-spacing:.1em;">
+      CLOUD SERVICE MODELS &middot; PART 3 OF 6
+    </div>
+    <h1>PaaS · FaaS · CaaS</h1>
+    <div class="subtitle">The managed-compute middle — where most workloads should live</div>
+    <div style="width:60px; height:3px; background:var(--amber); margin-bottom:1.4em;"></div>
+    <div style="display:flex; gap:.4em; flex-wrap:wrap; margin-bottom:1em;">
+      <span class="pill amber">Heroku · Render · Fly · Vercel</span>
+      <span class="pill green">Cloud Run · Fargate · Container Apps</span>
+      <span class="pill purple">Lambda · Cloud Functions · Workers</span>
+      <span class="pill blue">EKS · GKE · AKS</span>
+    </div>
+    <div class="ss-row">
+      <span class="ss-node">git push</span>
+      <span class="ss-arrow">→</span>
+      <span class="ss-node active">build</span>
+      <span class="ss-arrow">→</span>
+      <span class="ss-node active">image</span>
+      <span class="ss-arrow">→</span>
+      <span class="ss-node active">deploy</span>
+      <span class="ss-arrow">→</span>
+      <span class="ss-node done">live URL</span>
+    </div>
+    <p style="max-width:640px; color:#a0a0c0; font-size:.56em; line-height:1.5; margin-top:1em;">
+      Side-by-side tour of every flavour of managed compute · cold-start economics · pricing &amp; latency · decision matrix.
+    </p>
+    <div class="meta" style="margin-top:1.4em;">
+      Platform &nbsp;·&nbsp; Function &nbsp;·&nbsp; Container &nbsp;·&nbsp; Choose
+    </div>
+  </div>
+</section>
+
+
+<!-- 02 — TOPICS -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">01</span><h2>Topics</h2></div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">PaaS</h3>
+        <ul>
+          <li>Heroku-style — Render, Fly, Railway</li>
+          <li>Hyperscaler — Beanstalk, App Engine, App Service</li>
+          <li>Frontend-shaped — Vercel, Netlify, Cloudflare Pages</li>
+          <li>Buildpacks &amp; build orchestration</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">CaaS</h3>
+        <ul>
+          <li>"Run my container" — Cloud Run, Fargate, Container Apps, Fly Machines</li>
+          <li>Managed Kubernetes — EKS, GKE, AKS, Autopilot</li>
+          <li>The serverless container revolution</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">FaaS</h3>
+        <ul>
+          <li>Lambda anatomy — invoke → init → execute</li>
+          <li>Cold starts — what causes them, what fixes them</li>
+          <li>Edge FaaS — V8 isolates (Workers, Edge Functions)</li>
+          <li>Event-driven patterns &amp; orchestration (Step Functions)</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Choosing</h3>
+        <ul>
+          <li>Cost model comparison — per-hour vs per-request</li>
+          <li>Latency profiles — cold start, warm, p99</li>
+          <li>Decision matrix &amp; anti-patterns</li>
+          <li>Deployment strategies — blue/green, canary, rolling</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 03 — SPECTRUM -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">02</span><h2>The Managed-Compute Spectrum</h2></div>
+  <p>Reading left-to-right: <span class="a">your unit shrinks</span> (server → container → function), <span class="g">scale-to-zero gets faster</span>, the platform handles more, and you trade away more flexibility.</p>
+
+  <svg class="diagram" viewBox="0 0 1000 280" width="940" height="280">
+    <!-- spectrum bar -->
+    <line x1="40" y1="80" x2="960" y2="80" stroke="#2a2a3a" stroke-width="2"/>
+    <g font-family="Playfair Display,serif" font-size="13" font-weight="700" text-anchor="middle">
+      <circle cx="80"  cy="80" r="6" fill="#f5a623"/><text x="80"  y="55" fill="#f5a623">VMs (IaaS)</text>
+      <circle cx="280" cy="80" r="6" fill="#a78bfa"/><text x="280" y="55" fill="#a78bfa">Managed K8s</text>
+      <circle cx="480" cy="80" r="6" fill="#60a5fa"/><text x="480" y="55" fill="#60a5fa">CaaS</text>
+      <circle cx="680" cy="80" r="6" fill="#4ecb8d"/><text x="680" y="55" fill="#4ecb8d">PaaS</text>
+      <circle cx="880" cy="80" r="6" fill="#4ecb8d"/><text x="880" y="55" fill="#4ecb8d">FaaS</text>
+    </g>
+    <g font-family="JetBrains Mono,monospace" font-size="9" fill="#ccc" text-anchor="middle">
+      <text x="80"  y="105">unit: instance</text>
+      <text x="80"  y="118">scale-to-0: never</text>
+      <text x="80"  y="131">control: max</text>
+
+      <text x="280" y="105">unit: pod</text>
+      <text x="280" y="118">scale-to-0: nodes only</text>
+      <text x="280" y="131">control: high</text>
+
+      <text x="480" y="105">unit: container</text>
+      <text x="480" y="118">scale-to-0: yes</text>
+      <text x="480" y="131">control: medium</text>
+
+      <text x="680" y="105">unit: app</text>
+      <text x="680" y="118">scale-to-0: some</text>
+      <text x="680" y="131">control: low</text>
+
+      <text x="880" y="105">unit: function</text>
+      <text x="880" y="118">scale-to-0: instant</text>
+      <text x="880" y="131">control: minimal</text>
+    </g>
+    <g font-family="JetBrains Mono,monospace" font-size="9" fill="#888" text-anchor="middle">
+      <text x="80"  y="170">$/hour, idle pays</text>
+      <text x="280" y="170">$/node-hour</text>
+      <text x="480" y="170">$/req-second</text>
+      <text x="680" y="170">$/instance-hour or req</text>
+      <text x="880" y="170">$/invocation·ms</text>
+    </g>
+    <g font-family="DM Sans,sans-serif" font-size="11" fill="#888" text-anchor="middle">
+      <text x="80" y="220">"the box is yours"</text>
+      <text x="880" y="220">"a function ran somewhere"</text>
+    </g>
+    <!-- arrow -->
+    <line x1="40" y1="250" x2="960" y2="250" stroke="#888" stroke-width="1" marker-end="url(#m03)"/>
+    <defs><marker id="m03" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#888"/></marker></defs>
+    <text x="500" y="270" text-anchor="middle" fill="#888" font-family="DM Sans,sans-serif" font-size="11">more managed → less control · faster scale-to-zero · finer-grained billing</text>
+  </svg>
+</section>
+
+
+<!-- 04 — PaaS HEROKU-STYLE -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">03</span><h2>Heroku-Style PaaS — git push, get URL</h2></div>
+  <p>The original PaaS pattern — <span class="a">Heroku, 2007</span>. Push code; the platform detects the language, runs a build, deploys an app, gives you a URL, scales it on a slider. Modern siblings have closed the gap on price and added preview environments, multi-region, and IPv6.</p>
+
+  <div class="cols cols-2" style="margin-top:0.4em;">
+    <div>
+      <div class="card amber">
+        <h3 class="a">The five contenders</h3>
+        <table>
+          <thead><tr><th>Platform</th><th>Build</th><th>Killer feature</th><th>From ($)</th></tr></thead>
+          <tbody>
+            <tr><td><span class="a">Heroku</span></td><td>Buildpacks</td><td>add-ons marketplace, 18 yrs of stability</td><td>$5/mo eco-dyno</td></tr>
+            <tr><td><span class="a">Render</span></td><td>Auto-detect / Dockerfile</td><td>preview environments, native HTTPS, free DBs</td><td>free tier · $7/mo paid</td></tr>
+            <tr><td><span class="a">Fly.io</span></td><td>Dockerfile / nixpacks</td><td>multi-region by default, Firecracker μVMs</td><td>~$5/mo</td></tr>
+            <tr><td><span class="a">Railway</span></td><td>Nixpacks</td><td>Postgres-and-friends in a click</td><td>$5/mo</td></tr>
+            <tr><td><span class="a">Koyeb</span></td><td>Buildpacks / Docker</td><td>edge global, scale-to-0 paid tier</td><td>free hobby</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">A typical workflow</h3>
+<pre><code>$ git push render main
+==> Detected language: Node.js (package.json)
+==> Running build: npm ci &amp;&amp; npm run build
+==> Building image (cached layers)
+==> Provisioning HTTPS cert (Let's Encrypt)
+==> Deploying to: my-app.onrender.com
+==> Health check passing
+==> Live in 2m18s</code></pre>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">What you give up</h3>
+        <ul>
+          <li>Build-image choice (your runtime is whatever the platform says it is)</li>
+          <li>Networking depth — limited VPC, no NAT, no peering</li>
+          <li>Sidecars / multi-process pods (Heroku has limited buildpack-multi-procfile, Fly has machine-side)</li>
+          <li>OS tweaks (no <code>apt-get install</code> at runtime; build-time only)</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">What you get back</h3>
+        <ul>
+          <li>Time. From "I have an idea" to "URL anyone can hit" in &lt; 10 minutes</li>
+          <li>Free TLS, free preview env per PR, autoscaling, log UI, no on-call for hypervisor</li>
+          <li>Add-ons — Postgres, Redis, S3-compat object stores, CDN, Sentry — one click</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">When you outgrow it</h3>
+        <p>Per-instance pricing &gt; CaaS at &gt; ~$2k/month spend; or you need a private link to an internal data store; or your stack hits a runtime limit. Climb to CaaS or managed K8s.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 05 — HYPERSCALER PaaS -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">04</span><h2>Hyperscaler PaaS</h2></div>
+  <p>Each big-three cloud has its own PaaS. They're more enterprisey, more integrated with the rest of the cloud (IAM, VPC, observability) and more boring than the indie PaaS — which is the point if you're already in the cloud.</p>
+
+  <div class="cols cols-3" style="margin-top:0.4em;">
+    <div class="card amber">
+      <h3 class="a">AWS</h3>
+      <ul>
+        <li><span class="g">Elastic Beanstalk</span> — the original, EC2 underneath, dated UX</li>
+        <li><span class="g">App Runner</span> — modern, container-or-source, scale-to-zero (2024+)</li>
+        <li><span class="g">Amplify Hosting</span> — frontend SPAs &amp; SSR, Vercel-like</li>
+        <li><span class="g">Lightsail</span> — VPS-style fixed-price PaaS</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3 class="g">GCP</h3>
+      <ul>
+        <li><span class="a">App Engine Standard</span> — strict sandbox, sub-second autoscale, deprecated for greenfield</li>
+        <li><span class="a">App Engine Flex</span> — VM-based, less popular than Cloud Run</li>
+        <li><span class="a">Firebase Hosting</span> — frontend + functions</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Azure</h3>
+      <ul>
+        <li><span class="a">App Service</span> — broad runtime support, Windows + Linux, slot-based deployment</li>
+        <li><span class="a">Static Web Apps</span> — frontend + API in one</li>
+        <li><span class="a">Container Apps</span> — also CaaS, see slide 08</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cols cols-2" style="margin-top:0.4em;">
+    <div class="card blue">
+      <h3 class="b">Why they exist</h3>
+      <p>Selling "your team uses one cloud" — same IAM, same network, same support contract. Procurement loves them. Developers usually prefer Render, Vercel, or Cloud Run.</p>
+    </div>
+    <div class="card red">
+      <h3 class="r">The Beanstalk warning</h3>
+      <p>Old, opinionated, slow-deploying. Many teams trying to escape Beanstalk in 2024–2026 — App Runner is the AWS-native escape hatch; ECS Fargate is the polyglot one.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- 06 — FRONTEND PaaS -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">05</span><h2>Frontend-Shaped PaaS</h2></div>
+  <p>A new category: PaaS optimised for the JS frontend stack. Edge by default, framework-aware, preview-per-PR, and tightly bound to one or two frameworks (Next, Astro, SvelteKit).</p>
+
+  <div class="cols cols-2" style="margin-top:0.4em;">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Vercel</h3>
+        <ul>
+          <li>Made by the Next.js team — first-class for Next App Router, RSC, ISR, image optimisation</li>
+          <li>Edge functions (V8 isolates) + Lambda functions (Node)</li>
+          <li>Preview deployments per branch / PR — game-changing UX</li>
+          <li>Pricing: free hobby, $20/mo Pro, custom Enterprise; bandwidth gets expensive at scale</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">Netlify</h3>
+        <ul>
+          <li>The original JAMstack PaaS (2014)</li>
+          <li>Functions, Edge Handlers, Forms, Identity, A/B split testing</li>
+          <li>Strong agency / marketing-site fit</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Cloudflare Pages + Workers</h3>
+        <ul>
+          <li>Sites pushed to 300+ edge locations globally</li>
+          <li>Workers = backend at the same edge, V8-isolate cold-start &lt;5ms</li>
+          <li>D1 (SQLite), R2 (object), KV, Durable Objects, Queues — full-stack-on-the-edge</li>
+          <li>Pricing: free tier huge, $5/mo Workers Paid; <em>no egress fees ever</em></li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Same-day frontends</h3>
+        <p>The Vercel/Netlify/CF pattern collapses what used to be: hosting + CDN + TLS + functions + previews + analytics into one git push. For greenfield consumer-facing apps with React/Next/Svelte, this is the new default.</p>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">The framework lock-in</h3>
+        <p>Vercel works best with Next, Cloudflare Pages with their Workers SDK, Netlify with their Functions runtime. Self-hosting Next (via <code>next start</code> on a container) is harder than they advertise — open-next.js has emerged to bridge.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 07 — BUILDPACKS / DOCKERFILES -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">06</span><h2>Buildpacks · Dockerfiles · Nixpacks</h2></div>
+  <p>How a PaaS turns your repo into something runnable. Three approaches — pick your trade-off between magic and control.</p>
+
+  <div class="cols cols-3" style="margin-top:0.4em;">
+    <div class="card amber">
+      <h3 class="a">Buildpacks</h3>
+      <ul>
+        <li>Heroku invented (2011); CNB (Cloud Native Buildpacks) is the OSS standard</li>
+        <li>Auto-detect: <code>package.json</code> → Node, <code>requirements.txt</code> → Python</li>
+        <li>Reproducible, layered, rebases efficiently on base-image updates</li>
+        <li>Used by Heroku, GCP App Engine / Cloud Run source-deploy, IBM Code Engine</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3 class="g">Dockerfile</h3>
+      <ul>
+        <li>You write the recipe; the platform builds &amp; runs it</li>
+        <li>Maximum control, language-agnostic, portable across <em>every</em> CaaS</li>
+        <li>Multi-stage builds for tiny final images — see <a href="https://github.com/BrendanJamesLynskey/Docker_Multi_Stage_Builds">Multi-Stage Builds deck</a></li>
+        <li>Required for: heavy native deps, custom CA bundles, FIPS, BYO image</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Nixpacks</h3>
+      <ul>
+        <li>Railway-led modern alternative, uses Nix under the hood</li>
+        <li>Faster than buildpacks, deterministic, cache-friendly</li>
+        <li>Used by Railway, Coolify, Sevalla</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cols cols-2" style="margin-top:0.4em;">
+    <div class="card blue">
+      <h3 class="b">Build at PaaS vs build in CI</h3>
+      <ul>
+        <li><span class="a">Build-in-PaaS</span> — push source, platform builds. Simpler, less reproducible.</li>
+        <li><span class="a">Build-in-CI</span> — GitHub Actions builds the image, pushes to a registry, deploys. More complex, fully reproducible, scans for CVEs in pipeline. The pattern at scale.</li>
+        <li>Hybrid — CI builds &amp; tags; PaaS pulls. Best of both for medium teams.</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h3 class="r">The "works in CI, fails in PaaS" trap</h3>
+      <p>Different base images, different versions of <code>node</code>, different libc. Lock the runtime version in <code>.tool-versions</code> / <code>package.json</code> engines / <code>runtime.txt</code> — and ideally build the image yourself.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- 08 — CaaS RUN-MY-CONTAINER -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">07</span><h2>"Run My Container" CaaS</h2></div>
+  <p>Push a container image; the platform runs it, scales it, networks it, gives you a URL. No VMs, no Kubernetes, no buildpack opinions. Most workloads should default here.</p>
+
+  <table style="margin-top:.3em;">
+    <thead><tr><th>Service</th><th>Cloud</th><th>Cold start</th><th>Min CPU</th><th>Scale-to-0?</th><th>Pricing</th></tr></thead>
+    <tbody>
+      <tr><td><span class="a">Cloud Run</span></td><td>GCP</td><td>~500 ms gen1, &lt; 100ms gen2</td><td>0.08 vCPU</td><td>yes</td><td>per-100ms vCPU + GB-sec + req</td></tr>
+      <tr><td><span class="a">ECS Fargate</span></td><td>AWS</td><td>20–60 s (task launch)</td><td>0.25 vCPU</td><td>no (min 1 task)</td><td>per-second vCPU + GB</td></tr>
+      <tr><td><span class="a">App Runner</span></td><td>AWS</td><td>10–30 s (warm pool)</td><td>0.25 vCPU</td><td>yes (paused state)</td><td>per-second + provisioned</td></tr>
+      <tr><td><span class="a">Container Apps</span></td><td>Azure</td><td>~1 s</td><td>0.25 vCPU</td><td>yes (KEDA)</td><td>per-second vCPU + GB + req</td></tr>
+      <tr><td><span class="a">Fly Machines</span></td><td>Fly.io</td><td>200–600 ms (cold), &lt; 50 ms (suspended)</td><td>shared-1× CPU</td><td>yes (auto-stop)</td><td>per-second + bandwidth</td></tr>
+      <tr><td><span class="a">Cloudflare Containers</span></td><td>CF</td><td>&lt; 1 s (2025 GA)</td><td>0.25 vCPU</td><td>yes</td><td>per-10ms vCPU + GB</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cols cols-2" style="margin-top:0.3em;">
+    <div class="card amber">
+      <h3 class="a">Why CaaS won</h3>
+      <ul>
+        <li>You bring a container — works in your laptop, prod, CI, anywhere</li>
+        <li>Scale to zero — pay nothing when idle (most platforms)</li>
+        <li>No platform team needed; one team can ship, deploy, and operate</li>
+        <li>Migration path from PaaS or Kubernetes alike</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3 class="g">A Cloud Run deploy</h3>
+<pre><code>gcloud run deploy myapp \
+  --image=us-docker.pkg.dev/proj/repo/app:v42 \
+  --region=europe-west2 \
+  --concurrency=80 \
+  --min-instances=0 \
+  --max-instances=100 \
+  --cpu=1 --memory=512Mi \
+  --service-account=app-runner@proj.iam... \
+  --allow-unauthenticated</code></pre>
+    </div>
+  </div>
+</section>
+
+
+<!-- 09 — MANAGED K8S -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">08</span><h2>Managed Kubernetes — EKS · GKE · AKS</h2></div>
+  <p>The cloud runs the control plane (etcd, API server, scheduler); you bring node pools and deploy workloads. The "platform you build on top of" — and the right answer when CaaS isn't enough.</p>
+
+  <div class="cols cols-2" style="margin-top:0.4em;">
+    <div>
+      <div class="card amber">
+        <h3 class="a">When you actually need Kubernetes</h3>
+        <ul>
+          <li>You need workload-level customisation — sidecars, init containers, custom CSI / CNI</li>
+          <li>You're running enough services that Cloud Run / Fargate billing crosses break-even (~$3-5k/month workloads)</li>
+          <li>You need a service mesh, advanced traffic shaping, custom CRDs</li>
+          <li>Cross-cluster portability (on-prem ↔ cloud, or multi-cloud)</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">The three managed offerings</h3>
+        <table>
+          <thead><tr><th>Service</th><th>Control plane</th><th>Auto-mode</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>EKS</td><td>$0.10/hr ($73/mo)</td><td>EKS Auto Mode (2024)</td><td>Most flexible, most ops</td></tr>
+            <tr><td>GKE</td><td>$0.10/hr / cluster after first</td><td>Autopilot</td><td>Smartest defaults, Autopilot is the standout</td></tr>
+            <tr><td>AKS</td><td>Free (Standard SKU costs)</td><td>—</td><td>Tightest Azure integration</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Auto / Autopilot mode</h3>
+        <ul>
+          <li>Provider runs <span class="a">both</span> control plane and node lifecycle</li>
+          <li>You declare pods; the platform decides nodes (Karpenter-style)</li>
+          <li>Closes the gap with CaaS — pay per pod, scale to zero, but keep K8s API</li>
+          <li>GKE Autopilot is the most mature; EKS Auto Mode launched re:Invent 2024</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Critical add-ons (real prod K8s)</h3>
+        <ul>
+          <li><span class="a">Karpenter</span> / cluster-autoscaler — node-level scaling</li>
+          <li><span class="a">External-DNS, cert-manager</span> — DNS + TLS automation</li>
+          <li><span class="a">ArgoCD / Flux</span> — GitOps</li>
+          <li><span class="a">External Secrets Operator</span> — secrets sync</li>
+          <li><span class="a">Datadog / OpenTelemetry agents</span> — observability</li>
+          <li><span class="a">Kyverno / OPA Gatekeeper</span> — admission policy</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">The truth about K8s cost</h3>
+        <p>"Kubernetes is cheap" is a myth — the control plane is, the platform team isn't. A serious K8s install needs at least 1.5 SREs to operate well. If you don't have them, use CaaS.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 10 — FaaS LAMBDA ANATOMY -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">09</span><h2>FaaS — How a Lambda Actually Runs</h2></div>
+
+  <svg class="diagram" viewBox="0 0 1000 280" width="940" height="280">
+    <!-- swim lanes -->
+    <rect x="20"  y="20" width="140" height="40" rx="5" fill="#1a1a2a" stroke="#60a5fa"/>
+    <text x="90"  y="45" text-anchor="middle" fill="#60a5fa" font-family="Playfair Display,serif" font-size="13" font-weight="700">Caller</text>
+    <rect x="220" y="20" width="160" height="40" rx="5" fill="#1a1a2a" stroke="#f5a623"/>
+    <text x="300" y="45" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="13" font-weight="700">FaaS Frontend</text>
+    <rect x="450" y="20" width="200" height="40" rx="5" fill="#1a1a2a" stroke="#a78bfa"/>
+    <text x="550" y="45" text-anchor="middle" fill="#a78bfa" font-family="Playfair Display,serif" font-size="13" font-weight="700">Worker / Firecracker μVM</text>
+    <rect x="720" y="20" width="180" height="40" rx="5" fill="#1a1a2a" stroke="#4ecb8d"/>
+    <text x="810" y="45" text-anchor="middle" fill="#4ecb8d" font-family="Playfair Display,serif" font-size="13" font-weight="700">Your handler</text>
+
+    <line x1="90"  y1="60" x2="90"  y2="280" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="300" y1="60" x2="300" y2="280" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="550" y1="60" x2="550" y2="280" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="810" y1="60" x2="810" y2="280" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
+
+    <line x1="90" y1="80" x2="300" y2="80" stroke="#60a5fa" stroke-width="1.2" marker-end="url(#m09a)"/>
+    <text x="195" y="75" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="10">1. invoke (HTTP / event)</text>
+
+    <line x1="300" y1="105" x2="550" y2="105" stroke="#f5a623" stroke-width="1.2" marker-end="url(#m09b)"/>
+    <text x="425" y="100" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="10">2. assign warm worker, or "cold start"</text>
+
+    <line x1="550" y1="135" x2="810" y2="135" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#m09c)"/>
+    <text x="680" y="130" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="10">3. download package, init runtime, init handler (cold only)</text>
+
+    <line x1="810" y1="165" x2="550" y2="165" stroke="#4ecb8d" stroke-width="1.4" marker-end="url(#m09d)"/>
+    <text x="680" y="160" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="10">4. handler executes — this is the only part billed pre-2024</text>
+
+    <line x1="550" y1="195" x2="300" y2="195" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#m09c)"/>
+    <text x="425" y="190" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="10">5. response</text>
+
+    <line x1="300" y1="225" x2="90" y2="225" stroke="#f5a623" stroke-width="1.2" marker-end="url(#m09b)"/>
+    <text x="195" y="220" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="10">6. response (HTTP / SQS ack / etc)</text>
+
+    <text x="680" y="255" text-anchor="middle" fill="#888" font-family="DM Sans,sans-serif" font-size="11">Worker stays warm a few minutes — next invocation skips steps 2–3 entirely (warm path).</text>
+
+    <defs>
+      <marker id="m09a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#60a5fa"/></marker>
+      <marker id="m09b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#f5a623"/></marker>
+      <marker id="m09c" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#a78bfa"/></marker>
+      <marker id="m09d" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#4ecb8d"/></marker>
+    </defs>
+  </svg>
+
+  <div class="cols cols-3" style="margin-top:.2em;">
+    <div class="card amber"><h3 class="a">Cold path</h3><p>Steps 2–3. 50ms (Workers) → 1.5s (Java Lambda in VPC). Once per fresh worker.</p></div>
+    <div class="card green"><h3 class="g">Warm path</h3><p>Step 4 only. Handler is already in memory. P50 latency = your code's latency.</p></div>
+    <div class="card purple"><h3 class="p">Burst path</h3><p>Sudden traffic → hundreds of cold workers spun up in parallel. P99 spikes; this is where load tests reveal the truth.</p></div>
+  </div>
+</section>
+
+
+<!-- 11 — COLD STARTS -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">10</span><h2>Cold Starts — Causes &amp; Cures</h2></div>
+
+  <div class="cols cols-2" style="margin-top:0.4em;">
+    <div>
+      <div class="card amber">
+        <h3 class="a">What contributes to a cold start</h3>
+        <ul>
+          <li><span class="g">μVM boot</span> — ~125 ms on Firecracker</li>
+          <li><span class="g">Runtime init</span> — Node, Python ~50ms; JVM 300–800ms; .NET 200–600ms; Go &lt; 50ms</li>
+          <li><span class="g">Code download</span> — bigger zip = longer; 50 MB Lambda zip ~150 ms slower than 1 MB</li>
+          <li><span class="g">Handler init</span> — module imports, DB connection setup, AWS SDK warmup. <em>This is usually the biggest variable.</em></li>
+          <li><span class="g">VPC ENI attach</span> — historically seconds; "Hyperplane ENIs" (2019) brought it to ~250 ms</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Mitigations</h3>
+        <ul>
+          <li><span class="a">Provisioned concurrency / min instances</span> — keep N warm; you pay for them</li>
+          <li><span class="a">SnapStart</span> — Lambda Java/Python — restore from a memory snapshot, ~100 ms instead of 800 ms</li>
+          <li><span class="a">Smaller deploy package</span> — split function dependencies, layer common code</li>
+          <li><span class="a">Lazy-init at module-top</span> only when needed — defer optional clients</li>
+          <li><span class="a">Compile-on-build</span> — Go &amp; Rust dominate cold-start charts</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:0.4em;">
+        <h3 class="p">Cold-start latency, real numbers (2024-25)</h3>
+        <table>
+          <thead><tr><th>Runtime</th><th>p50 cold</th><th>p99 cold</th></tr></thead>
+          <tbody>
+            <tr><td>Workers (V8 isolate)</td><td>&lt; 5 ms</td><td>&lt; 30 ms</td></tr>
+            <tr><td>Lambda Node 20</td><td>180 ms</td><td>650 ms</td></tr>
+            <tr><td>Lambda Python 3.12</td><td>200 ms</td><td>700 ms</td></tr>
+            <tr><td>Lambda Java + SnapStart</td><td>200 ms</td><td>800 ms</td></tr>
+            <tr><td>Lambda Java (no Snap)</td><td>900 ms</td><td>3500 ms</td></tr>
+            <tr><td>Cloud Run gen2 Node</td><td>120 ms</td><td>400 ms</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 12 — EDGE FaaS -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">11</span><h2>Edge FaaS — V8 Isolates</h2></div>
+  <p>A different beast: each function runs in a <span class="a">V8 isolate</span> (the same construct as a browser tab) instead of a μVM. ~5 ms cold start. No Node-native APIs. Code runs at the closest of hundreds of edge locations to the user.</p>
+
+  <div class="cols cols-2" style="margin-top:0.4em;">
+    <div>
+      <div class="card amber">
+        <h3 class="a">What's running it</h3>
+        <ul>
+          <li><span class="g">Cloudflare Workers</span> — 300+ POPs, the original isolate-based platform</li>
+          <li><span class="g">Vercel Edge Functions</span> — also V8 isolates, on Vercel's edge</li>
+          <li><span class="g">Deno Deploy</span> — Deno runtime, Anthropic-and-others backed</li>
+          <li><span class="g">Fastly Compute@Edge</span> — WASM-based, multi-language</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">Best fits</h3>
+        <ul>
+          <li>Auth checks, A/B routing, geofencing — request rewriting at the edge</li>
+          <li>Lightweight APIs with global users (auth, KV reads, image proxying)</li>
+          <li>Edge SSR — render close to the user; revalidate from the origin</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">What you give up</h3>
+        <ul>
+          <li>No <code>fs</code>, no <code>net</code> as in Node — only <code>fetch</code>, <code>Request</code>, <code>Response</code>, Streams, WebCrypto</li>
+          <li>No native binaries (sharp, tensorflow.js without WASM)</li>
+          <li>Limited CPU per request (~50 ms wall on Workers Free, 30s Paid; varies)</li>
+          <li>No long-running background jobs (Workers Cron, Durable Objects fill some of this)</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Workers KV / D1 / Durable Objects</h3>
+        <ul>
+          <li><span class="a">KV</span> — eventually consistent global key-value, microseconds at edge</li>
+          <li><span class="a">D1</span> — SQLite per region, replicated</li>
+          <li><span class="a">Durable Objects</span> — single-tenant in-memory state, transactional, the "actor" pattern at the edge</li>
+        </ul>
+        <p style="margin-top:.2em;">Closest equivalents elsewhere: <span class="g">Vercel KV/Postgres</span>, <span class="g">Deno KV</span>, <span class="g">PlanetScale Hyperdrive</span> + edge functions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 13 — EVENT-DRIVEN -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">12</span><h2>Event-Driven Patterns</h2></div>
+  <p>FaaS shines on events, not requests. Most production FaaS code runs in response to: a queue message, an S3 upload, a CloudWatch event, a webhook, a DynamoDB change, a Kinesis record.</p>
+
+  <div class="cols cols-2" style="margin-top:0.4em;">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Common event sources</h3>
+        <ul>
+          <li><span class="g">Queues</span> — SQS / Pub/Sub / Service Bus / EventBridge</li>
+          <li><span class="g">Storage</span> — S3 / GCS / Blob notifications</li>
+          <li><span class="g">DBs</span> — DynamoDB Streams, Firestore triggers, Cosmos change feed</li>
+          <li><span class="g">Schedule</span> — EventBridge / Cloud Scheduler / Cron</li>
+          <li><span class="g">HTTP</span> — API Gateway, ALB, Function URLs</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">Orchestration — when one function isn't enough</h3>
+        <ul>
+          <li><span class="a">AWS Step Functions</span> — JSON state machine; retries, parallel, choice; the standard for AWS pipelines</li>
+          <li><span class="a">GCP Workflows</span> — YAML state machine</li>
+          <li><span class="a">Azure Durable Functions</span> — code-first orchestration in C# / JS</li>
+          <li><span class="a">Temporal</span> — vendor-neutral workflow engine; runs on any cloud</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Idempotency &amp; at-least-once</h3>
+        <p>Event sources retry. Your function will be called with the same event again. Design for it: idempotency keys, conditional writes (DynamoDB <code>attribute_not_exists</code>), de-dup via a transaction id.</p>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">Dead-letter queues are not optional</h3>
+        <ul>
+          <li>Configure DLQ on every function</li>
+          <li>Set max-receive count (3–5)</li>
+          <li>Alarm on DLQ depth &gt; 0</li>
+          <li>Have a redrive runbook</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">The "lambda calls lambda" smell</h3>
+        <p>If one function synchronously calls another, you're paying double, doubling cold starts, and increasing tail latency. Use Step Functions, queues, or just one bigger function.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 14 — COST COMPARISON -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">13</span><h2>Cost Comparison — Same Workload, Five Layers</h2></div>
+  <p>A small JSON API at <span class="a">100 requests/sec sustained</span> and <span class="a">100 ms median</span>, 256 MB. Approximate, us-east-1, 2025 prices.</p>
+
+  <table style="font-size:.5em;">
+    <thead><tr><th>Layer</th><th>Service</th><th>Sizing</th><th>$/month (rough)</th><th>Comment</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>IaaS</td><td>2× t3.small (HA)</td><td>2 vCPU, 2 GB each</td>
+        <td>~$30 (RI) – $60 (on-demand)</td>
+        <td>+ ALB ($23) + NAT GW ($32) + EBS — closer to $120–150</td>
+      </tr>
+      <tr>
+        <td>K8s</td><td>EKS small cluster + 2 t3.small nodes</td><td>1 control plane + 2 nodes</td>
+        <td>~$73 + $30–$60 = $100–135</td>
+        <td>Plus ALB / NAT; before any platform team cost</td>
+      </tr>
+      <tr>
+        <td>CaaS</td><td>Cloud Run, max-instances 4, scale-to-0</td><td>1 vCPU, 256MB</td>
+        <td>~$15–25</td>
+        <td>Excludes free tier; idle costs $0</td>
+      </tr>
+      <tr>
+        <td>PaaS</td><td>Render Standard $7/mo or Heroku Basic $7/mo each x 2 instances</td><td>HA, autoscaling off</td>
+        <td>$14–25</td>
+        <td>+ $7/mo Postgres add-on</td>
+      </tr>
+      <tr>
+        <td>FaaS</td><td>Lambda + API GW</td><td>256 MB, 100 ms each</td>
+        <td>~$70 (Lambda) + ~$45 (APIGW)</td>
+        <td>API GW is the killer; switch to Function URL or ALB to cut to ~$25 total</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cols cols-2" style="margin-top:0.3em;">
+    <div class="card amber">
+      <h3 class="a">Take-aways</h3>
+      <ul>
+        <li>CaaS &amp; PaaS are the cheapest for steady ~100 RPS workloads</li>
+        <li>Lambda is cheapest only if you're <em>not</em> using API Gateway</li>
+        <li>K8s is rarely cheapest for small workloads — it's a platform, not an optimisation</li>
+        <li>IaaS only wins below this scale (single VM running everything) or above (3-year RI giants)</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3 class="g">Where the curve flips</h3>
+      <ul>
+        <li>&lt; 1 RPS, spiky → FaaS</li>
+        <li>1–500 RPS, steady → CaaS / PaaS</li>
+        <li>500+ RPS or stateful → managed K8s or IaaS with reserved capacity</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- 15 — DEPLOYMENT STRATEGIES -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">14</span><h2>Deployment Strategies on Managed Compute</h2></div>
+
+  <div class="cols cols-2" style="margin-top:0.4em;">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Rolling</h3>
+        <p>The default everywhere. Replace N pods/instances at a time; drain old, start new. Simple, slow, hard to roll back mid-deploy.</p>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">Blue / green</h3>
+        <p>Stand up the new version alongside, swap traffic atomically. Cloud Run revisions, AWS App Runner deploys, K8s with two services + a switch. Fast rollback (swap back).</p>
+      </div>
+      <div class="card purple" style="margin-top:0.4em;">
+        <h3 class="p">Canary</h3>
+        <p>Send 1% / 5% / 25% / 100% of traffic to the new version while watching SLO metrics. Cloud Run native traffic-splitting, ALB weighted target groups, Linkerd / Istio + Argo Rollouts.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card blue">
+        <h3 class="b">Feature flags &amp; ring deploys</h3>
+        <p>Different problem from infra deploys. Push code dark; flip flags per cohort. LaunchDarkly, Unleash, GrowthBook, Statsig, AWS AppConfig. Decouples "deploy" from "release".</p>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">The forgotten half — db migrations</h3>
+        <p>Code can roll forward; data rarely can. Separate schema migrations from code deploys: backwards-compatible migration first, code, then drop-old-column migration. Two deploys, never one.</p>
+      </div>
+      <div class="card amber" style="margin-top:0.4em;">
+        <h3 class="a">Where to read more</h3>
+        <p><a href="https://github.com/BrendanJamesLynskey/Introduction_to_CI_CD">CI/CD deck</a> covers the pipeline. <a href="https://github.com/BrendanJamesLynskey/Deploying_Web_Applications">Deploying Web Applications</a> for beginner deploy strategies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 16 — DECISION MATRIX -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">15</span><h2>Decision Matrix — Which Layer?</h2></div>
+
+  <table style="font-size:.5em;">
+    <thead><tr><th>You are…</th><th>Default</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Building a Next.js / SvelteKit consumer site</td>
+        <td><span class="g">Vercel / Cloudflare Pages</span></td>
+        <td>Framework-aware, edge SSR, preview-per-PR, free TLS</td>
+      </tr>
+      <tr>
+        <td>Shipping a small Go / Python / Node API</td>
+        <td><span class="g">Cloud Run / Render / Fly</span></td>
+        <td>One container, scale-to-0, deploy via <code>gcloud run deploy</code> or <code>git push</code></td>
+      </tr>
+      <tr>
+        <td>Glue / webhook / S3-triggered ETL</td>
+        <td><span class="g">Lambda / Cloud Functions</span></td>
+        <td>Per-event billing; nothing else fits this shape</td>
+      </tr>
+      <tr>
+        <td>Cron / scheduled jobs</td>
+        <td><span class="g">EventBridge + Lambda; Cloud Scheduler + Cloud Run Jobs</span></td>
+        <td>$0 idle, robust retries, observability built-in</td>
+      </tr>
+      <tr>
+        <td>Auth / geofence / A/B at request edge</td>
+        <td><span class="g">Cloudflare Workers / Vercel Edge</span></td>
+        <td>&lt; 5 ms cold start, runs at every POP</td>
+      </tr>
+      <tr>
+        <td>20+ services, custom CRDs, service mesh</td>
+        <td><span class="g">Managed K8s (Autopilot/Auto Mode)</span></td>
+        <td>K8s API, but nodes are someone else's problem</td>
+      </tr>
+      <tr>
+        <td>GPU training / inference workload</td>
+        <td><span class="g">IaaS GPUs or specialist (Modal, RunPod)</span></td>
+        <td>Lambda has no GPU; CaaS GPU support is thin</td>
+      </tr>
+      <tr>
+        <td>Stateful service (DB, queue, cache)</td>
+        <td><span class="g">Managed service (RDS, MemoryStore, Aurora, Redis Cloud)</span></td>
+        <td>Don't run state on FaaS or PaaS — use the DBaaS</td>
+      </tr>
+      <tr>
+        <td>Existing Heroku app, growing</td>
+        <td><span class="g">Render / Fly</span> first; <span class="g">Cloud Run</span> if data-side is on GCP</td>
+        <td>Same DX, modern infra, often cheaper</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- 17 — ANTI-PATTERNS -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">16</span><h2>Anti-Patterns</h2></div>
+
+  <div class="cols cols-2">
+    <div>
+      <div class="card red">
+        <h3 class="r">"Lambda for everything"</h3>
+        <p>200 functions, mutually-coupled, sharing one Postgres, on a 14-step Step Function. Move steady-state HTTP services to CaaS; keep FaaS for events.</p>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">"K8s for everything"</h3>
+        <p>Three engineers, one Helm chart per service, one Crossplane install per cloud. Cloud Run / App Runner / Container Apps will give back literal months of life.</p>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">"Vercel as our backend"</h3>
+        <p>Long DB connections, background jobs, big files, 6 GB function deploys, 10s timeouts. Push your backend off the frontend PaaS; use a real CaaS.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card red">
+        <h3 class="r">"Multi-cloud abstraction layer"</h3>
+        <p>Abstracting across Lambda + Cloud Functions + Azure Functions in one repo. The lowest common denominator is awful, debugging gets worse, and you still pick a cloud per region. Don't.</p>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">"Free tier serverless will never bill"</h3>
+        <p>Until it does. Lambda + S3 + DynamoDB run-away can rack $thousands overnight. Set hard quota / concurrent execution limits / budget alarms before launch.</p>
+      </div>
+      <div class="card red" style="margin-top:0.4em;">
+        <h3 class="r">"Serverless = no monitoring"</h3>
+        <p>If anything you need <em>more</em> instrumentation. Cold starts, throttles, DLQ depth, init duration. Default CloudWatch is the floor; OpenTelemetry → Honeycomb / Datadog / Tempo is what you actually want.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 18 — SUMMARY -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr"><span class="tag">17</span><h2>Summary</h2></div>
+
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Three takeaways</h3>
+        <ol style="padding-left:1.2em;">
+          <li>Most workloads belong on CaaS (Cloud Run / Container Apps / App Runner). Default there; deviate when there's a real reason.</li>
+          <li>FaaS is for <em>events</em>, not <em>services</em>. Use it where its shape fits — webhooks, queues, S3 triggers — not as a substitute for an API.</li>
+          <li>Kubernetes is a platform you build on top of, not a faster way to ship. Choose it deliberately, or you'll feed it for years.</li>
+        </ol>
+      </div>
+      <div class="card green" style="margin-top:0.4em;">
+        <h3 class="g">Next in the series</h3>
+        <ul>
+          <li><span class="a">04</span> SaaS Architecture — multi-tenancy, B2B identity, metering</li>
+          <li><span class="a">05</span> Cloud Security — IAM in depth, secrets, network, compliance</li>
+          <li><span class="a">06</span> LLM-as-a-Service</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Companion decks</h3>
+        <ul>
+          <li><a href="https://github.com/BrendanJamesLynskey/Deploying_Web_Applications">Deploying Web Applications</a> — beginner introduction</li>
+          <li><a href="https://github.com/BrendanJamesLynskey/Deploying_with_Docker">Deploying with Docker</a> — what you put on these platforms</li>
+          <li><a href="https://github.com/BrendanJamesLynskey/Software#docker">Docker series</a> — building those containers</li>
+          <li><a href="https://github.com/BrendanJamesLynskey/Introduction_to_CI_CD">CI/CD</a> — the pipeline that triggers each deploy</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.4em;">
+        <h3 class="b">One sentence</h3>
+        <p>"<em>Pick the smallest unit of deploy that fits your workload — function for events, container for services, pod for platforms — and resist the temptation to use the same hammer for all three.</em>"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({hash:true,slideNumber:'c/t',transition:'fade',transitionSpeed:'fast',
+  controls:true,progress:true,center:false,width:1100,height:900,margin:0.01,
+  plugins:[RevealHighlight],highlight:{theme:'monokai'}});
+</script>
+<script>
+(function(){var h=Reveal.getConfig().height||900,m=Reveal.getConfig().margin||0.02;
+  var maxH=Math.floor(h*(1-2*m))+'px';
+  function fixSlides(){document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){s.style.display='block';s.style.maxHeight=maxH;});}
+  Reveal.on('ready',fixSlides);Reveal.on('slidechanged',fixSlides);})();
+</script>
+</body>
+</html>
