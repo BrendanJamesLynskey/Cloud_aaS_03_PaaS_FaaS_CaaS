@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/white.min.css">
 <style>
-  :root { --amber:#f5a623;--green:#4ecb8d;--purple:#a78bfa;--blue:#60a5fa;--red:#f87171;
-    --bg:#0a0a0f;--bg2:#10101a;--bg3:#181824;--border:#2a2a3a;--text:#e8e8f0;--muted:#8888a8; }
+  :root { --amber:#af7e0f;--green:#217566;--purple:#4e4392;--blue:#204d89;--red:#bb2233;
+    --bg:#eaeff2;--bg2:#e1e8ec;--bg3:#d9e1e6;--border:#b9c7d0;--text:#14273b;--muted:#5c6e7b; }
   .reveal-viewport{background:var(--bg);} .reveal .slides section{background:transparent;}
   .reveal{font-family:'DM Sans',sans-serif;color:var(--text);}
   .reveal h1,.reveal h2,.reveal h3{font-family:'Playfair Display',serif;font-weight:700;}
@@ -23,7 +23,7 @@
   .reveal code{font-family:'JetBrains Mono',monospace;font-size:.72em;}
   .reveal pre{box-shadow:none;background:var(--bg3);border:1px solid var(--border);
     border-radius:6px;padding:.3em .5em;margin:.25em 0;}
-  .reveal pre code{font-size:.52em;line-height:1.35;background:transparent;color:#cdd6f4;}
+  .reveal pre code{font-size:.52em;line-height:1.35;background:transparent;color:#213343;}
   .slide-hdr{display:flex;align-items:center;gap:.4em;border-bottom:1px solid var(--border);
     padding-bottom:.2em;margin-bottom:.3em;}
   .slide-hdr .tag{font-family:'JetBrains Mono',monospace;font-size:.42em;font-weight:500;
@@ -36,13 +36,13 @@
   .card.amber{border-left:3px solid var(--amber);} .card.green{border-left:3px solid var(--green);}
   .card.purple{border-left:3px solid var(--purple);} .card.blue{border-left:3px solid var(--blue);}
   .card.red{border-left:3px solid var(--red);}
-  .card h3{font-size:.64em;margin:0 0 .12em;} .card p{font-size:.52em;margin:0;color:#b8b8d0;}
-  .card ul{margin:0;padding-left:1em;} .card li{font-size:.52em;color:#b8b8d0;margin-bottom:.02em;}
+  .card h3{font-size:.64em;margin:0 0 .12em;} .card p{font-size:.52em;margin:0;color:#354552;}
+  .card ul{margin:0;padding-left:1em;} .card li{font-size:.52em;color:#354552;margin-bottom:.02em;}
   .reveal table{width:100%;border-collapse:collapse;font-size:.5em;}
   .reveal table th{background:var(--bg3);color:var(--amber);font-weight:600;
     padding:.2em .4em;border:1px solid var(--border);text-align:left;}
-  .reveal table td{padding:.18em .4em;border:1px solid var(--border);color:#ccc;}
-  .reveal table tr:nth-child(even) td{background:#0e0e18;}
+  .reveal table td{padding:.18em .4em;border:1px solid var(--border);color:#283948;}
+  .reveal table tr:nth-child(even) td{background:#e3eaee;}
   .a{color:var(--amber);font-weight:600;} .g{color:var(--green);font-weight:600;}
   .p{color:var(--purple);font-weight:600;} .b{color:var(--blue);font-weight:600;}
   .r{color:var(--red);font-weight:600;} .mono{font-family:'JetBrains Mono',monospace;}
@@ -62,13 +62,14 @@
     font-family:'JetBrains Mono',monospace;flex-wrap:wrap;}
   .ss-node{padding:.2em .55em;border-radius:5px;font-size:.9em;
     background:var(--bg3);border:1px solid var(--border);color:var(--text);}
-  .ss-node.active{background:#1a2a1a;border-color:var(--green);color:var(--green);}
-  .ss-node.done{background:#1a1a2a;border-color:var(--purple);color:var(--purple);}
+  .ss-node.active{background:#c4d4d1;border-color:var(--green);color:var(--green);}
+  .ss-node.done{background:#d4dde4;border-color:var(--purple);color:var(--purple);}
   .ss-arrow{color:var(--amber);} .ss-label{font-size:.8em;color:var(--muted);margin-left:.3em;}
   .reveal ul,.reveal ol{margin:.15em 0 .15em 1em;}
   .reveal .slides>section{display:flex!important;flex-direction:column!important;
     overflow-y:auto!important;align-items:stretch!important;justify-content:flex-start!important;}
 </style>
+<style>.reveal .slide-number{background-color:transparent}</style>
 </head>
 <body>
 <div class="reveal">
@@ -76,7 +77,7 @@
 
 
 <!-- 01 — TITLE -->
-<section class="title-slide" data-background-color="#0a0a0f">
+<section class="title-slide" data-background-color="#eaeff2">
   <div style="text-align:left; max-width:820px; margin:0 auto; padding: 1em 0;">
     <div style="font-family:'JetBrains Mono',monospace; font-size:.5em; color:var(--muted); margin-bottom:.4em; letter-spacing:.1em;">
       CLOUD SERVICE MODELS &middot; PART 3 OF 6
@@ -101,7 +102,7 @@
       <span class="ss-arrow">→</span>
       <span class="ss-node done">live URL</span>
     </div>
-    <p style="max-width:640px; color:#a0a0c0; font-size:.56em; line-height:1.5; margin-top:1em;">
+    <p style="max-width:640px; color:#475865; font-size:.56em; line-height:1.5; margin-top:1em;">
       Side-by-side tour of every flavour of managed compute · cold-start economics · pricing &amp; latency · decision matrix.
     </p>
     <div class="meta" style="margin-top:1.4em;">
@@ -112,7 +113,7 @@
 
 
 <!-- 02 — TOPICS -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">01</span><h2>Topics</h2></div>
   <div class="cols cols-2">
     <div>
@@ -159,21 +160,21 @@
 
 
 <!-- 03 — SPECTRUM -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">02</span><h2>The Managed-Compute Spectrum</h2></div>
   <p>Reading left-to-right: <span class="a">your unit shrinks</span> (server → container → function), <span class="g">scale-to-zero gets faster</span>, the platform handles more, and you trade away more flexibility.</p>
 
   <svg class="diagram" viewBox="0 0 1000 280" width="940" height="280">
     <!-- spectrum bar -->
-    <line x1="40" y1="80" x2="960" y2="80" stroke="#2a2a3a" stroke-width="2"/>
+    <line x1="40" y1="80" x2="960" y2="80" stroke="#b9c7d0" stroke-width="2"/>
     <g font-family="Playfair Display,serif" font-size="13" font-weight="700" text-anchor="middle">
-      <circle cx="80"  cy="80" r="6" fill="#f5a623"/><text x="80"  y="55" fill="#f5a623">VMs (IaaS)</text>
-      <circle cx="280" cy="80" r="6" fill="#a78bfa"/><text x="280" y="55" fill="#a78bfa">Managed K8s</text>
-      <circle cx="480" cy="80" r="6" fill="#60a5fa"/><text x="480" y="55" fill="#60a5fa">CaaS</text>
-      <circle cx="680" cy="80" r="6" fill="#4ecb8d"/><text x="680" y="55" fill="#4ecb8d">PaaS</text>
-      <circle cx="880" cy="80" r="6" fill="#4ecb8d"/><text x="880" y="55" fill="#4ecb8d">FaaS</text>
+      <circle cx="80"  cy="80" r="6" fill="#af7e0f"/><text x="80"  y="55" fill="#af7e0f">VMs (IaaS)</text>
+      <circle cx="280" cy="80" r="6" fill="#4e4392"/><text x="280" y="55" fill="#4e4392">Managed K8s</text>
+      <circle cx="480" cy="80" r="6" fill="#204d89"/><text x="480" y="55" fill="#204d89">CaaS</text>
+      <circle cx="680" cy="80" r="6" fill="#217566"/><text x="680" y="55" fill="#217566">PaaS</text>
+      <circle cx="880" cy="80" r="6" fill="#217566"/><text x="880" y="55" fill="#217566">FaaS</text>
     </g>
-    <g font-family="JetBrains Mono,monospace" font-size="9" fill="#ccc" text-anchor="middle">
+    <g font-family="JetBrains Mono,monospace" font-size="9" fill="#283948" text-anchor="middle">
       <text x="80"  y="105">unit: instance</text>
       <text x="80"  y="118">scale-to-0: never</text>
       <text x="80"  y="131">control: max</text>
@@ -194,27 +195,27 @@
       <text x="880" y="118">scale-to-0: instant</text>
       <text x="880" y="131">control: minimal</text>
     </g>
-    <g font-family="JetBrains Mono,monospace" font-size="9" fill="#888" text-anchor="middle">
+    <g font-family="JetBrains Mono,monospace" font-size="9" fill="#60717e" text-anchor="middle">
       <text x="80"  y="170">$/hour, idle pays</text>
       <text x="280" y="170">$/node-hour</text>
       <text x="480" y="170">$/req-second</text>
       <text x="680" y="170">$/instance-hour or req</text>
       <text x="880" y="170">$/invocation·ms</text>
     </g>
-    <g font-family="DM Sans,sans-serif" font-size="11" fill="#888" text-anchor="middle">
+    <g font-family="DM Sans,sans-serif" font-size="11" fill="#60717e" text-anchor="middle">
       <text x="80" y="220">"the box is yours"</text>
       <text x="880" y="220">"a function ran somewhere"</text>
     </g>
     <!-- arrow -->
-    <line x1="40" y1="250" x2="960" y2="250" stroke="#888" stroke-width="1" marker-end="url(#m03)"/>
-    <defs><marker id="m03" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#888"/></marker></defs>
-    <text x="500" y="270" text-anchor="middle" fill="#888" font-family="DM Sans,sans-serif" font-size="11">more managed → less control · faster scale-to-zero · finer-grained billing</text>
+    <line x1="40" y1="250" x2="960" y2="250" stroke="#60717e" stroke-width="1" marker-end="url(#m03)"/>
+    <defs><marker id="m03" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#60717e"/></marker></defs>
+    <text x="500" y="270" text-anchor="middle" fill="#60717e" font-family="DM Sans,sans-serif" font-size="11">more managed → less control · faster scale-to-zero · finer-grained billing</text>
   </svg>
 </section>
 
 
 <!-- 04 — PaaS HEROKU-STYLE -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">03</span><h2>Heroku-Style PaaS — git push, get URL</h2></div>
   <p>The original PaaS pattern — <span class="a">Heroku, 2007</span>. Push code; the platform detects the language, runs a build, deploys an app, gives you a URL, scales it on a slider. Modern siblings have closed the gap on price and added preview environments, multi-region, and IPv6.</p>
 
@@ -273,7 +274,7 @@
 
 
 <!-- 05 — HYPERSCALER PaaS -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">04</span><h2>Hyperscaler PaaS</h2></div>
   <p>Each big-three cloud has its own PaaS. They're more enterprisey, more integrated with the rest of the cloud (IAM, VPC, observability) and more boring than the indie PaaS — which is the point if you're already in the cloud.</p>
 
@@ -319,7 +320,7 @@
 
 
 <!-- 06 — FRONTEND PaaS -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">05</span><h2>Frontend-Shaped PaaS</h2></div>
   <p>A new category: PaaS optimised for the JS frontend stack. Edge by default, framework-aware, preview-per-PR, and tightly bound to one or two frameworks (Next, Astro, SvelteKit).</p>
 
@@ -367,7 +368,7 @@
 
 
 <!-- 07 — BUILDPACKS / DOCKERFILES -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">06</span><h2>Buildpacks · Dockerfiles · Nixpacks</h2></div>
   <p>How a PaaS turns your repo into something runnable. Three approaches — pick your trade-off between magic and control.</p>
 
@@ -418,7 +419,7 @@
 
 
 <!-- 08 — CaaS RUN-MY-CONTAINER -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">07</span><h2>"Run My Container" CaaS</h2></div>
   <p>Push a container image; the platform runs it, scales it, networks it, gives you a URL. No VMs, no Kubernetes, no buildpack opinions. Most workloads should default here.</p>
 
@@ -461,7 +462,7 @@
 
 
 <!-- 09 — MANAGED K8S -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">08</span><h2>Managed Kubernetes — EKS · GKE · AKS</h2></div>
   <p>The cloud runs the control plane (etcd, API server, scheduler); you bring node pools and deploy workloads. The "platform you build on top of" — and the right answer when CaaS isn't enough.</p>
 
@@ -519,50 +520,50 @@
 
 
 <!-- 10 — FaaS LAMBDA ANATOMY -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">09</span><h2>FaaS — How a Lambda Actually Runs</h2></div>
 
   <svg class="diagram" viewBox="0 0 1000 280" width="940" height="280">
     <!-- swim lanes -->
-    <rect x="20"  y="20" width="140" height="40" rx="5" fill="#1a1a2a" stroke="#60a5fa"/>
-    <text x="90"  y="45" text-anchor="middle" fill="#60a5fa" font-family="Playfair Display,serif" font-size="13" font-weight="700">Caller</text>
-    <rect x="220" y="20" width="160" height="40" rx="5" fill="#1a1a2a" stroke="#f5a623"/>
-    <text x="300" y="45" text-anchor="middle" fill="#f5a623" font-family="Playfair Display,serif" font-size="13" font-weight="700">FaaS Frontend</text>
-    <rect x="450" y="20" width="200" height="40" rx="5" fill="#1a1a2a" stroke="#a78bfa"/>
-    <text x="550" y="45" text-anchor="middle" fill="#a78bfa" font-family="Playfair Display,serif" font-size="13" font-weight="700">Worker / Firecracker μVM</text>
-    <rect x="720" y="20" width="180" height="40" rx="5" fill="#1a1a2a" stroke="#4ecb8d"/>
-    <text x="810" y="45" text-anchor="middle" fill="#4ecb8d" font-family="Playfair Display,serif" font-size="13" font-weight="700">Your handler</text>
+    <rect x="20"  y="20" width="140" height="40" rx="5" fill="#d4dde4" stroke="#204d89"/>
+    <text x="90"  y="45" text-anchor="middle" fill="#204d89" font-family="Playfair Display,serif" font-size="13" font-weight="700">Caller</text>
+    <rect x="220" y="20" width="160" height="40" rx="5" fill="#d4dde4" stroke="#af7e0f"/>
+    <text x="300" y="45" text-anchor="middle" fill="#af7e0f" font-family="Playfair Display,serif" font-size="13" font-weight="700">FaaS Frontend</text>
+    <rect x="450" y="20" width="200" height="40" rx="5" fill="#d4dde4" stroke="#4e4392"/>
+    <text x="550" y="45" text-anchor="middle" fill="#4e4392" font-family="Playfair Display,serif" font-size="13" font-weight="700">Worker / Firecracker μVM</text>
+    <rect x="720" y="20" width="180" height="40" rx="5" fill="#d4dde4" stroke="#217566"/>
+    <text x="810" y="45" text-anchor="middle" fill="#217566" font-family="Playfair Display,serif" font-size="13" font-weight="700">Your handler</text>
 
-    <line x1="90"  y1="60" x2="90"  y2="280" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
-    <line x1="300" y1="60" x2="300" y2="280" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
-    <line x1="550" y1="60" x2="550" y2="280" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
-    <line x1="810" y1="60" x2="810" y2="280" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="90"  y1="60" x2="90"  y2="280" stroke="#b9c7d0" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="300" y1="60" x2="300" y2="280" stroke="#b9c7d0" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="550" y1="60" x2="550" y2="280" stroke="#b9c7d0" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="810" y1="60" x2="810" y2="280" stroke="#b9c7d0" stroke-width="1" stroke-dasharray="3,3"/>
 
-    <line x1="90" y1="80" x2="300" y2="80" stroke="#60a5fa" stroke-width="1.2" marker-end="url(#m09a)"/>
-    <text x="195" y="75" text-anchor="middle" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="10">1. invoke (HTTP / event)</text>
+    <line x1="90" y1="80" x2="300" y2="80" stroke="#204d89" stroke-width="1.2" marker-end="url(#m09a)"/>
+    <text x="195" y="75" text-anchor="middle" fill="#204d89" font-family="JetBrains Mono,monospace" font-size="10">1. invoke (HTTP / event)</text>
 
-    <line x1="300" y1="105" x2="550" y2="105" stroke="#f5a623" stroke-width="1.2" marker-end="url(#m09b)"/>
-    <text x="425" y="100" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="10">2. assign warm worker, or "cold start"</text>
+    <line x1="300" y1="105" x2="550" y2="105" stroke="#af7e0f" stroke-width="1.2" marker-end="url(#m09b)"/>
+    <text x="425" y="100" text-anchor="middle" fill="#af7e0f" font-family="JetBrains Mono,monospace" font-size="10">2. assign warm worker, or "cold start"</text>
 
-    <line x1="550" y1="135" x2="810" y2="135" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#m09c)"/>
-    <text x="680" y="130" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="10">3. download package, init runtime, init handler (cold only)</text>
+    <line x1="550" y1="135" x2="810" y2="135" stroke="#4e4392" stroke-width="1.2" marker-end="url(#m09c)"/>
+    <text x="680" y="130" text-anchor="middle" fill="#4e4392" font-family="JetBrains Mono,monospace" font-size="10">3. download package, init runtime, init handler (cold only)</text>
 
-    <line x1="810" y1="165" x2="550" y2="165" stroke="#4ecb8d" stroke-width="1.4" marker-end="url(#m09d)"/>
-    <text x="680" y="160" text-anchor="middle" fill="#4ecb8d" font-family="JetBrains Mono,monospace" font-size="10">4. handler executes — this is the only part billed pre-2024</text>
+    <line x1="810" y1="165" x2="550" y2="165" stroke="#217566" stroke-width="1.4" marker-end="url(#m09d)"/>
+    <text x="680" y="160" text-anchor="middle" fill="#217566" font-family="JetBrains Mono,monospace" font-size="10">4. handler executes — this is the only part billed pre-2024</text>
 
-    <line x1="550" y1="195" x2="300" y2="195" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#m09c)"/>
-    <text x="425" y="190" text-anchor="middle" fill="#a78bfa" font-family="JetBrains Mono,monospace" font-size="10">5. response</text>
+    <line x1="550" y1="195" x2="300" y2="195" stroke="#4e4392" stroke-width="1.2" marker-end="url(#m09c)"/>
+    <text x="425" y="190" text-anchor="middle" fill="#4e4392" font-family="JetBrains Mono,monospace" font-size="10">5. response</text>
 
-    <line x1="300" y1="225" x2="90" y2="225" stroke="#f5a623" stroke-width="1.2" marker-end="url(#m09b)"/>
-    <text x="195" y="220" text-anchor="middle" fill="#f5a623" font-family="JetBrains Mono,monospace" font-size="10">6. response (HTTP / SQS ack / etc)</text>
+    <line x1="300" y1="225" x2="90" y2="225" stroke="#af7e0f" stroke-width="1.2" marker-end="url(#m09b)"/>
+    <text x="195" y="220" text-anchor="middle" fill="#af7e0f" font-family="JetBrains Mono,monospace" font-size="10">6. response (HTTP / SQS ack / etc)</text>
 
-    <text x="680" y="255" text-anchor="middle" fill="#888" font-family="DM Sans,sans-serif" font-size="11">Worker stays warm a few minutes — next invocation skips steps 2–3 entirely (warm path).</text>
+    <text x="680" y="255" text-anchor="middle" fill="#60717e" font-family="DM Sans,sans-serif" font-size="11">Worker stays warm a few minutes — next invocation skips steps 2–3 entirely (warm path).</text>
 
     <defs>
-      <marker id="m09a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#60a5fa"/></marker>
-      <marker id="m09b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#f5a623"/></marker>
-      <marker id="m09c" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#a78bfa"/></marker>
-      <marker id="m09d" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#4ecb8d"/></marker>
+      <marker id="m09a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#204d89"/></marker>
+      <marker id="m09b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#af7e0f"/></marker>
+      <marker id="m09c" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#4e4392"/></marker>
+      <marker id="m09d" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#217566"/></marker>
     </defs>
   </svg>
 
@@ -575,7 +576,7 @@
 
 
 <!-- 11 — COLD STARTS -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">10</span><h2>Cold Starts — Causes &amp; Cures</h2></div>
 
   <div class="cols cols-2" style="margin-top:0.4em;">
@@ -622,7 +623,7 @@
 
 
 <!-- 12 — EDGE FaaS -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">11</span><h2>Edge FaaS — V8 Isolates</h2></div>
   <p>A different beast: each function runs in a <span class="a">V8 isolate</span> (the same construct as a browser tab) instead of a μVM. ~5 ms cold start. No Node-native APIs. Code runs at the closest of hundreds of edge locations to the user.</p>
 
@@ -671,7 +672,7 @@
 
 
 <!-- 13 — EVENT-DRIVEN -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">12</span><h2>Event-Driven Patterns</h2></div>
   <p>FaaS shines on events, not requests. Most production FaaS code runs in response to: a queue message, an S3 upload, a CloudWatch event, a webhook, a DynamoDB change, a Kinesis record.</p>
 
@@ -721,7 +722,7 @@
 
 
 <!-- 14 — COST COMPARISON -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">13</span><h2>Cost Comparison — Same Workload, Five Layers</h2></div>
   <p>A small JSON API at <span class="a">100 requests/sec sustained</span> and <span class="a">100 ms median</span>, 256 MB. Approximate, us-east-1, 2025 prices.</p>
 
@@ -779,7 +780,7 @@
 
 
 <!-- 15 — DEPLOYMENT STRATEGIES -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">14</span><h2>Deployment Strategies on Managed Compute</h2></div>
 
   <div class="cols cols-2" style="margin-top:0.4em;">
@@ -816,7 +817,7 @@
 
 
 <!-- 16 — DECISION MATRIX -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">15</span><h2>Decision Matrix — Which Layer?</h2></div>
 
   <table style="font-size:.5em;">
@@ -873,7 +874,7 @@
 
 
 <!-- 17 — ANTI-PATTERNS -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">16</span><h2>Anti-Patterns</h2></div>
 
   <div class="cols cols-2">
@@ -910,7 +911,7 @@
 
 
 <!-- 18 — SUMMARY -->
-<section data-background-color="#0a0a0f">
+<section data-background-color="#eaeff2">
   <div class="slide-hdr"><span class="tag">17</span><h2>Summary</h2></div>
 
   <div class="cols cols-2">
