@@ -6,27 +6,27 @@
 <title>PaaS · FaaS · CaaS — Managed Compute</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&family=Overpass+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/white.min.css">
 <style>
   :root { --amber:#af7e0f;--green:#217566;--purple:#4e4392;--blue:#204d89;--red:#bb2233;
     --bg:#eaeff2;--bg2:#e1e8ec;--bg3:#d9e1e6;--border:#b9c7d0;--text:#14273b;--muted:#5c6e7b; }
   .reveal-viewport{background:var(--bg);} .reveal .slides section{background:transparent;}
-  .reveal{font-family:'DM Sans',sans-serif;color:var(--text);}
-  .reveal h1,.reveal h2,.reveal h3{font-family:'Playfair Display',serif;font-weight:700;}
+  .reveal{font-family:'Public Sans',sans-serif;color:var(--text);}
+  .reveal h1,.reveal h2,.reveal h3{font-family:'Big Shoulders Display',serif;font-weight:700;}
   .reveal h1{font-size:1.6em;color:var(--amber);line-height:1.1;}
   .reveal h2{font-size:1.1em;color:var(--amber);margin-bottom:.2em;}
   .reveal h3{font-size:.78em;color:var(--green);margin-bottom:.15em;}
   .reveal p{font-size:.56em;line-height:1.45;color:var(--text);}
   .reveal li{font-size:.54em;line-height:1.45;margin-bottom:.1em;}
-  .reveal code{font-family:'JetBrains Mono',monospace;font-size:.72em;}
+  .reveal code{font-family:'Overpass Mono',monospace;font-size:.72em;}
   .reveal pre{box-shadow:none;background:var(--bg3);border:1px solid var(--border);
     border-radius:6px;padding:.3em .5em;margin:.25em 0;}
   .reveal pre code{font-size:.52em;line-height:1.35;background:transparent;color:#213343;}
   .slide-hdr{display:flex;align-items:center;gap:.4em;border-bottom:1px solid var(--border);
     padding-bottom:.2em;margin-bottom:.3em;}
-  .slide-hdr .tag{font-family:'JetBrains Mono',monospace;font-size:.42em;font-weight:500;
+  .slide-hdr .tag{font-family:'Overpass Mono',monospace;font-size:.42em;font-weight:500;
     color:var(--bg);background:var(--amber);padding:.1em .4em;border-radius:3px;letter-spacing:.04em;}
   .slide-hdr h2{margin:0;font-size:.95em;}
   .cols{display:grid;gap:.5em;} .cols-2{grid-template-columns:1fr 1fr;}
@@ -45,9 +45,9 @@
   .reveal table tr:nth-child(even) td{background:#e3eaee;}
   .a{color:var(--amber);font-weight:600;} .g{color:var(--green);font-weight:600;}
   .p{color:var(--purple);font-weight:600;} .b{color:var(--blue);font-weight:600;}
-  .r{color:var(--red);font-weight:600;} .mono{font-family:'JetBrains Mono',monospace;}
+  .r{color:var(--red);font-weight:600;} .mono{font-family:'Overpass Mono',monospace;}
   svg.diagram{display:block;margin:0 auto;overflow:visible;}
-  .pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.44em;
+  .pill{display:inline-block;font-family:'Overpass Mono',monospace;font-size:.44em;
     padding:.08em .4em;border-radius:99px;border:1px solid;margin:0 .08em;}
   .pill.amber{color:var(--amber);border-color:var(--amber);}
   .pill.green{color:var(--green);border-color:var(--green);}
@@ -55,11 +55,11 @@
   .pill.blue{color:var(--blue);border-color:var(--blue);}
   .reveal .slide-footer{display:none;}
   .title-slide h1{font-size:1.8em;}
-  .title-slide .subtitle{font-size:.7em;color:var(--green);font-family:'DM Sans',sans-serif;
+  .title-slide .subtitle{font-size:.7em;color:var(--green);font-family:'Public Sans',sans-serif;
     font-weight:300;letter-spacing:.04em;margin:.3em 0 .6em;}
-  .title-slide .meta{font-size:.48em;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .title-slide .meta{font-size:.48em;color:var(--muted);font-family:'Overpass Mono',monospace;}
   .ss-row{display:flex;gap:.25em;align-items:center;margin:.1em 0;font-size:.55em;
-    font-family:'JetBrains Mono',monospace;flex-wrap:wrap;}
+    font-family:'Overpass Mono',monospace;flex-wrap:wrap;}
   .ss-node{padding:.2em .55em;border-radius:5px;font-size:.9em;
     background:var(--bg3);border:1px solid var(--border);color:var(--text);}
   .ss-node.active{background:#c4d4d1;border-color:var(--green);color:var(--green);}
@@ -79,7 +79,7 @@
 <!-- 01 — TITLE -->
 <section class="title-slide" data-background-color="#eaeff2">
   <div style="text-align:left; max-width:820px; margin:0 auto; padding: 1em 0;">
-    <div style="font-family:'JetBrains Mono',monospace; font-size:.5em; color:var(--muted); margin-bottom:.4em; letter-spacing:.1em;">
+    <div style="font-family:'Overpass Mono',monospace; font-size:.5em; color:var(--muted); margin-bottom:.4em; letter-spacing:.1em;">
       CLOUD SERVICE MODELS &middot; PART 3 OF 6
     </div>
     <h1>PaaS · FaaS · CaaS</h1>
@@ -167,14 +167,14 @@
   <svg class="diagram" viewBox="0 0 1000 280" width="940" height="280">
     <!-- spectrum bar -->
     <line x1="40" y1="80" x2="960" y2="80" stroke="#b9c7d0" stroke-width="2"/>
-    <g font-family="Playfair Display,serif" font-size="13" font-weight="700" text-anchor="middle">
+    <g font-family="Big Shoulders Display,serif" font-size="13" font-weight="700" text-anchor="middle">
       <circle cx="80"  cy="80" r="6" fill="#af7e0f"/><text x="80"  y="55" fill="#af7e0f">VMs (IaaS)</text>
       <circle cx="280" cy="80" r="6" fill="#4e4392"/><text x="280" y="55" fill="#4e4392">Managed K8s</text>
       <circle cx="480" cy="80" r="6" fill="#204d89"/><text x="480" y="55" fill="#204d89">CaaS</text>
       <circle cx="680" cy="80" r="6" fill="#217566"/><text x="680" y="55" fill="#217566">PaaS</text>
       <circle cx="880" cy="80" r="6" fill="#217566"/><text x="880" y="55" fill="#217566">FaaS</text>
     </g>
-    <g font-family="JetBrains Mono,monospace" font-size="9" fill="#283948" text-anchor="middle">
+    <g font-family="Overpass Mono,monospace" font-size="9" fill="#283948" text-anchor="middle">
       <text x="80"  y="105">unit: instance</text>
       <text x="80"  y="118">scale-to-0: never</text>
       <text x="80"  y="131">control: max</text>
@@ -195,21 +195,21 @@
       <text x="880" y="118">scale-to-0: instant</text>
       <text x="880" y="131">control: minimal</text>
     </g>
-    <g font-family="JetBrains Mono,monospace" font-size="9" fill="#60717e" text-anchor="middle">
+    <g font-family="Overpass Mono,monospace" font-size="9" fill="#60717e" text-anchor="middle">
       <text x="80"  y="170">$/hour, idle pays</text>
       <text x="280" y="170">$/node-hour</text>
       <text x="480" y="170">$/req-second</text>
       <text x="680" y="170">$/instance-hour or req</text>
       <text x="880" y="170">$/invocation·ms</text>
     </g>
-    <g font-family="DM Sans,sans-serif" font-size="11" fill="#60717e" text-anchor="middle">
+    <g font-family="Public Sans,sans-serif" font-size="11" fill="#60717e" text-anchor="middle">
       <text x="80" y="220">"the box is yours"</text>
       <text x="880" y="220">"a function ran somewhere"</text>
     </g>
     <!-- arrow -->
     <line x1="40" y1="250" x2="960" y2="250" stroke="#60717e" stroke-width="1" marker-end="url(#m03)"/>
     <defs><marker id="m03" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#60717e"/></marker></defs>
-    <text x="500" y="270" text-anchor="middle" fill="#60717e" font-family="DM Sans,sans-serif" font-size="11">more managed → less control · faster scale-to-zero · finer-grained billing</text>
+    <text x="500" y="270" text-anchor="middle" fill="#60717e" font-family="Public Sans,sans-serif" font-size="11">more managed → less control · faster scale-to-zero · finer-grained billing</text>
   </svg>
 </section>
 
@@ -526,13 +526,13 @@
   <svg class="diagram" viewBox="0 0 1000 280" width="940" height="280">
     <!-- swim lanes -->
     <rect x="20"  y="20" width="140" height="40" rx="5" fill="#d4dde4" stroke="#204d89"/>
-    <text x="90"  y="45" text-anchor="middle" fill="#204d89" font-family="Playfair Display,serif" font-size="13" font-weight="700">Caller</text>
+    <text x="90"  y="45" text-anchor="middle" fill="#204d89" font-family="Big Shoulders Display,serif" font-size="13" font-weight="700">Caller</text>
     <rect x="220" y="20" width="160" height="40" rx="5" fill="#d4dde4" stroke="#af7e0f"/>
-    <text x="300" y="45" text-anchor="middle" fill="#af7e0f" font-family="Playfair Display,serif" font-size="13" font-weight="700">FaaS Frontend</text>
+    <text x="300" y="45" text-anchor="middle" fill="#af7e0f" font-family="Big Shoulders Display,serif" font-size="13" font-weight="700">FaaS Frontend</text>
     <rect x="450" y="20" width="200" height="40" rx="5" fill="#d4dde4" stroke="#4e4392"/>
-    <text x="550" y="45" text-anchor="middle" fill="#4e4392" font-family="Playfair Display,serif" font-size="13" font-weight="700">Worker / Firecracker μVM</text>
+    <text x="550" y="45" text-anchor="middle" fill="#4e4392" font-family="Big Shoulders Display,serif" font-size="13" font-weight="700">Worker / Firecracker μVM</text>
     <rect x="720" y="20" width="180" height="40" rx="5" fill="#d4dde4" stroke="#217566"/>
-    <text x="810" y="45" text-anchor="middle" fill="#217566" font-family="Playfair Display,serif" font-size="13" font-weight="700">Your handler</text>
+    <text x="810" y="45" text-anchor="middle" fill="#217566" font-family="Big Shoulders Display,serif" font-size="13" font-weight="700">Your handler</text>
 
     <line x1="90"  y1="60" x2="90"  y2="280" stroke="#b9c7d0" stroke-width="1" stroke-dasharray="3,3"/>
     <line x1="300" y1="60" x2="300" y2="280" stroke="#b9c7d0" stroke-width="1" stroke-dasharray="3,3"/>
@@ -540,24 +540,24 @@
     <line x1="810" y1="60" x2="810" y2="280" stroke="#b9c7d0" stroke-width="1" stroke-dasharray="3,3"/>
 
     <line x1="90" y1="80" x2="300" y2="80" stroke="#204d89" stroke-width="1.2" marker-end="url(#m09a)"/>
-    <text x="195" y="75" text-anchor="middle" fill="#204d89" font-family="JetBrains Mono,monospace" font-size="10">1. invoke (HTTP / event)</text>
+    <text x="195" y="75" text-anchor="middle" fill="#204d89" font-family="Overpass Mono,monospace" font-size="10">1. invoke (HTTP / event)</text>
 
     <line x1="300" y1="105" x2="550" y2="105" stroke="#af7e0f" stroke-width="1.2" marker-end="url(#m09b)"/>
-    <text x="425" y="100" text-anchor="middle" fill="#af7e0f" font-family="JetBrains Mono,monospace" font-size="10">2. assign warm worker, or "cold start"</text>
+    <text x="425" y="100" text-anchor="middle" fill="#af7e0f" font-family="Overpass Mono,monospace" font-size="10">2. assign warm worker, or "cold start"</text>
 
     <line x1="550" y1="135" x2="810" y2="135" stroke="#4e4392" stroke-width="1.2" marker-end="url(#m09c)"/>
-    <text x="680" y="130" text-anchor="middle" fill="#4e4392" font-family="JetBrains Mono,monospace" font-size="10">3. download package, init runtime, init handler (cold only)</text>
+    <text x="680" y="130" text-anchor="middle" fill="#4e4392" font-family="Overpass Mono,monospace" font-size="10">3. download package, init runtime, init handler (cold only)</text>
 
     <line x1="810" y1="165" x2="550" y2="165" stroke="#217566" stroke-width="1.4" marker-end="url(#m09d)"/>
-    <text x="680" y="160" text-anchor="middle" fill="#217566" font-family="JetBrains Mono,monospace" font-size="10">4. handler executes — this is the only part billed pre-2024</text>
+    <text x="680" y="160" text-anchor="middle" fill="#217566" font-family="Overpass Mono,monospace" font-size="10">4. handler executes — this is the only part billed pre-2024</text>
 
     <line x1="550" y1="195" x2="300" y2="195" stroke="#4e4392" stroke-width="1.2" marker-end="url(#m09c)"/>
-    <text x="425" y="190" text-anchor="middle" fill="#4e4392" font-family="JetBrains Mono,monospace" font-size="10">5. response</text>
+    <text x="425" y="190" text-anchor="middle" fill="#4e4392" font-family="Overpass Mono,monospace" font-size="10">5. response</text>
 
     <line x1="300" y1="225" x2="90" y2="225" stroke="#af7e0f" stroke-width="1.2" marker-end="url(#m09b)"/>
-    <text x="195" y="220" text-anchor="middle" fill="#af7e0f" font-family="JetBrains Mono,monospace" font-size="10">6. response (HTTP / SQS ack / etc)</text>
+    <text x="195" y="220" text-anchor="middle" fill="#af7e0f" font-family="Overpass Mono,monospace" font-size="10">6. response (HTTP / SQS ack / etc)</text>
 
-    <text x="680" y="255" text-anchor="middle" fill="#60717e" font-family="DM Sans,sans-serif" font-size="11">Worker stays warm a few minutes — next invocation skips steps 2–3 entirely (warm path).</text>
+    <text x="680" y="255" text-anchor="middle" fill="#60717e" font-family="Public Sans,sans-serif" font-size="11">Worker stays warm a few minutes — next invocation skips steps 2–3 entirely (warm path).</text>
 
     <defs>
       <marker id="m09a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#204d89"/></marker>
